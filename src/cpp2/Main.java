@@ -13,16 +13,16 @@ public class Main extends javax.swing.JFrame {
         
         this.sharedResource = new SharedResource();
 
-        thread1 = new Hilo(this.textArea1, this.sharedResource);
+        thread1 = new Hilo(this.textArea1, this.labelKilled, this.sharedResource);
         thread1.setName("T1");
         
-        thread2 = new Hilo(this.textArea2, this.sharedResource);
+        thread2 = new Hilo(this.textArea2, this.labelKilled, this.sharedResource);
         thread2.setName("T2");
         
-        thread3 = new Hilo(this.textArea3, this.sharedResource);
+        thread3 = new Hilo(this.textArea3, this.labelKilled, this.sharedResource);
         thread3.setName("T3");
         
-        thread4 = new Hilo(this.textArea4, this.sharedResource);
+        thread4 = new Hilo(this.textArea4, this.labelKilled, this.sharedResource);
         thread4.setName("T4");
     }
 
@@ -42,6 +42,7 @@ public class Main extends javax.swing.JFrame {
         textArea1 = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         textArea4 = new javax.swing.JTextArea();
+        labelKilled = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,7 +53,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        btnPause.setText("Pause");
+        btnPause.setText("Kill");
         btnPause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPauseActionPerformed(evt);
@@ -91,8 +92,9 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnStop)
                     .addComponent(btnRun)
-                    .addComponent(btnPause))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
+                    .addComponent(btnPause)
+                    .addComponent(labelKilled))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -107,20 +109,23 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(104, 104, 104)
-                .addComponent(btnRun)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPause)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnStop)
-                .addContainerGap(88, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(btnRun)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPause)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnStop)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                        .addComponent(labelKilled))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING))))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -140,12 +145,37 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRunActionPerformed
 
     private void btnPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPauseActionPerformed
-        thread1.pause();
-        thread2.pause();
-        thread3.pause();
-        thread4.pause();
+        int threadNumber = getRandomNumber(1, 4);
+        killThread(threadNumber);                
     }//GEN-LAST:event_btnPauseActionPerformed
 
+    public int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+    
+    private void killThread(int threadNumber) {
+        switch (threadNumber) {
+            case 1:
+                thread1.kill();
+                break;
+            
+            case 2:
+                thread2.kill();
+                break;
+                
+            case 3:
+                thread3.kill();
+                break;
+                
+            case 4:
+                thread4.kill();
+                break;
+                
+            default:
+        }
+    }
+   
+    
     private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
         thread1.pause();
         thread2.pause();
@@ -194,9 +224,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel labelKilled;
     private javax.swing.JTextArea textArea1;
     private javax.swing.JTextArea textArea2;
     private javax.swing.JTextArea textArea3;
     private javax.swing.JTextArea textArea4;
     // End of variables declaration//GEN-END:variables
+
 }
