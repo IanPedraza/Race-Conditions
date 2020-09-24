@@ -3,23 +3,14 @@ package cpp2;
 
 public class SharedResource extends Thread{
     
-    private static final int INTERRUPTS_SIZE = 2;
-    
     private String datoCompartido;
-    private Interruption[] interrupts;
+    private final Lock lock;
 
     public SharedResource() {
         this.datoCompartido = "";
-        this.interrupts = new Interruption[INTERRUPTS_SIZE];
-        initInterrupts();
+        this.lock = new Lock();
     }    
     
-    private void initInterrupts () {
-        for (int i = 0; i < INTERRUPTS_SIZE; i++) {
-            interrupts[i] = new Interruption();
-        }
-    }
-
     public String getDatoCompartido() {
         lock();
         System.out.println("the resource has been read");
@@ -34,21 +25,12 @@ public class SharedResource extends Thread{
         this.datoCompartido = datoCompartido;        
     }
     
-    public boolean isLocked() {
-        
-        for (int i = 0; i < INTERRUPTS_SIZE; i++) {            
-            if (interrupts[i].isInterruption()) {
-                return true;
-            }
-        }
-        
-        return false;
+    public boolean isLocked() {        
+        return lock.isLocked();
     }
     
     private void lock() {
-        for (int i = 0; i < INTERRUPTS_SIZE; i++) {            
-            interrupts[i].setInterruption(true);
-        }
+        lock.setLock(true);
     }
     
 }
