@@ -22,14 +22,14 @@ public class SharedResource extends Thread{
 
     public String getDatoCompartido() {
         lock();
-        System.out.println("the resource has been read");
+        System.out.println(datoCompartido + ": the resource has been read");
             
         return datoCompartido;        
     }
 
     public void setDatoCompartido(String datoCompartido) {
         lock();
-        System.out.println("the resource has been written");
+        System.out.println(datoCompartido + ": the resource has been written");
             
         this.datoCompartido = datoCompartido;        
     }

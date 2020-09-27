@@ -21,7 +21,10 @@ public class Hilo extends Thread {
     @Override
     public void run() {
         while(isRunning) { 
-            if (sharedResource.isLocked()) return;
+            if (sharedResource.isLocked()) {
+                System.out.println(getName() + ": Cannot access this thread right now");
+                return;
+            }
             
             this.sharedResource.setDatoCompartido(this.getName());
             this.textArea.append(this.sharedResource.getDatoCompartido() + "\n");
